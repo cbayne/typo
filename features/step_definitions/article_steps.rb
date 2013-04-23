@@ -10,10 +10,11 @@ Given /^the blog is set up with a non-admin$/ do
                 :state => 'active'})
 end
 
-Given /^the following articles exist:$/ do |table|
-  table.hashes.each do |article|
-  	Article.create!(article)
-  end
+Given /^the following articles exist:$/ do |articles_table|
+  # table is a Cucumber::Ast::Table
+  articles_table.hashes.each do |article|
+  Article.create!(article)
+  end 
 end
 
 And /^I am logged into the non-admin panel$/ do

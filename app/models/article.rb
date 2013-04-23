@@ -416,6 +416,7 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
+ 
   protected
 
   def set_published_at

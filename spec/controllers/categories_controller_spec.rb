@@ -29,9 +29,9 @@ describe CategoriesController, "/index" do
   describe "if :index template exists" do
     it "should render :index" do
       pending "Stubbing #template_exists is not enough to fool Rails"
-      controller.stub!(:template_exists?) \
-        .and_return(true)
-
+        controller.stub!(:template_exists?) \
+          .and_return(true)
+      
       do_get
       response.should render_template(:index)
     end
