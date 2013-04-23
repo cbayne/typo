@@ -11,7 +11,7 @@ Feature: Merge Articles
     | id |       author     |                 title                    |   type  |
     | 1  |   Aaron Miller   | Why bears are america's greatest threat. | Article |
     | 2  |  Christina Bayne | Bears: Corrupting america's youth.       | Article | 
-h
+
 Scenario: Merge two articles.
   Given I am on the edit page for article 1
   When I fill in "merge_with" with "2"
