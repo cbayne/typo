@@ -9,14 +9,17 @@ Feature: Merge Articles
 
     Given the following articles exist:
     | id |       author     |                 title                    |   type  |	body		    |
-    | 3  |   Aaron Miller   | Why bears are America's greatest threat. | Article | Bears are unethical      |
-    | 4  |  Christina Bayne | Bears: Corrupting America's youth.       | Article | Bears are bad influences |
+    | 4  |   Aaron Miller   | Why bears are America's greatest threat. | Article | Bears are unethical      |
+    | 5  |  Christina Bayne | Bears: Corrupting America's youth.       | Article | Bears are bad influences |
 
 Scenario: Merge two articles.
-  Given I am on the edit page for article 3
-  And I fill in "merge_with" with "4"
+  Given I am on the edit page for article 4
+  And I fill in "merge_with" with "5"
   And I press "Merge" 
-  Then the title should be "Why bears are America's greatest threat."
-  And the author should be "Aaron Miller"
-  And the body should contain "Bears are unethical" and "Bears are bad influences"
+  Then I should be on the admin content page
+  When I go to the home page
+  Then I should see "Why bears are America's greatest threat."
+  When I follow "Why bears are America's greatest threat."
+  Then I should see "Bears are unethical"
+  And I should see "Bears are bad influences"
   
