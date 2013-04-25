@@ -18,8 +18,8 @@ module NavigationHelpers
     when /^the new article page$/
       '/admin/content/new'
 
-    when /^the edit page for article 1/
-      '/admin/content/edit/1'
+    when /^the edit page for article (.*)/
+      '/admin/content/edit/' + $1
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
