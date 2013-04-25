@@ -61,6 +61,28 @@ class Article < Content
 
   setting :password,                   :string, ''
 
+  def merge_with(merge_article_id)
+    merge_article = Article.find_by_id(merge_article_id)
+
+    # title and author come for "free"
+    # merge bodies of the articles
+    if !self.body
+      self.body = merge_article.body
+    elsif merge_article.body
+      self.body += merge_article.body
+    end
+
+    # move comments from merge_article to edit_article
+    self.comments << merge_article.comments
+    self.save
+
+    # must "re-get" merge_article with new comments list or else comments will
+    # be deleted due to cascade
+    merge_article = Article.find_by_id(merge_article_id)
+    merge_article.destroy
+  end
+
+
   def initialize(*args)
     super
     # Yes, this is weird - PDC
@@ -468,25 +490,4 @@ class Article < Content
     return from..to
   end
 
-
-  def merge_with(merge_article_id)
-    merge_article = Article.find_by_id(merge_article_id)
-
-    # title and author come for "free"
-    # merge bodies of the articles
-    if !self.body
-      self.body = merge_article.body
-    elsif merge_article.body
-      self.body += merge_article.body
-    end
-
-    # move comments from merge_article to edit_article
-    self.comments << merge_article.comments
-    self.save
-
-    # must "re-get" merge_article with new comments list or else comments will
-    # be deleted due to cascade
-    merge_article = Article.find_by_id(merge_article_id)
-    merge_article.destroy
-  end
 end
