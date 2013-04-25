@@ -8,9 +8,9 @@ Feature: Merge Articles
     And I am logged into the admin panel
 
     Given the following articles exist:
-    | id |       author     |                 title                    |   type  |	body		    |
-    | 4  |   Aaron Miller   | Why bears are America's greatest threat. | Article | Bears are unethical      |
-    | 5  |  Christina Bayne | Bears: Corrupting America's youth.       | Article | Bears are bad influences |
+    | id |       author     |                 title                    |   type  |	body		    | published |
+    | 4  |   Aaron Miller   | Why bears are America's greatest threat. | Article | Bears are unethical      |    true   |
+    | 5  |  Christina Bayne | Bears: Corrupting America's youth.       | Article | Bears are bad influences |    true   |
 
 Scenario: Merge two articles.
   Given I am on the edit page for article 4
