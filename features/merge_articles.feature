@@ -16,7 +16,7 @@ Scenario: Merge two articles.
   Given I am on the edit page for article 4
   And I fill in "merge_with" with "5"
   And I press "Merge" 
-  Then I should be on the admin content page
+  Then I should be on the edit page for article 4
   When I go to the home page
   Then I should see "Why bears are America's greatest threat."
   When I follow "Why bears are America's greatest threat."
