@@ -468,6 +468,7 @@ class Article < Content
     return from..to
   end
 
+<<<<<<< HEAD
   def merge_with(merge_article_id)
     merge_article = Article.find_by_id(merge_article_id)
 
@@ -490,4 +491,14 @@ class Article < Content
   end
 
 
+=======
+<<<<<<< HEAD
+   
+=======
+  def merge_with(article_id)
+      article_to_merge_with = Article.find(article_id)       
+  end
+
+>>>>>>> 8d38bcfc17f7e4f01b8bbcdfde37179fefe11e6d
+>>>>>>> cbayne
 end
