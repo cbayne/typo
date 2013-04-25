@@ -276,3 +276,16 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+Then /^the title should be "(.*?)"$/ do |expected_title|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the author should be "(.*?)"$/ do |expected_author|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the body should contain "(.*?)" and "(.*?)"$/ do |expected_string_1, expected_string_2|
+  pending # express the regexp above with the code you wish you had
+end
+

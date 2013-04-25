@@ -8,13 +8,15 @@ Feature: Merge Articles
     And I am logged into the admin panel
 
     Given the following articles exist:
-    | id |       author     |                 title                    |   type  |
-    | 1  |   Aaron Miller   | Why bears are america's greatest threat. | Article |
-    | 2  |  Christina Bayne | Bears: Corrupting america's youth.       | Article | 
+    | id |       author     |                 title                    |   type  |	body		    |
+    | 1  |   Aaron Miller   | Why bears are America's greatest threat. | Article | Bears are unethical      |
+    | 2  |  Christina Bayne | Bears: Corrupting America's youth.       | Article | Bears are bad influences |
 
 Scenario: Merge two articles.
   Given I am on the edit page for article 1
   And I fill in "merge_with" with "2"
   And I press "Merge" 
-  
+  Then the title should be "Why bears are America's greatest threat."
+  And the author should be "Aaron Miller"
+  And the body should contain "Bears are unethical" and "Bears are bad influences"
   

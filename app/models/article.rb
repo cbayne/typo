@@ -468,8 +468,8 @@ class Article < Content
     return from..to
   end
 
-  def merge_with(id)
-      # not yet implemented. 
+  def merge_with(article_id)
+      article_to_merge_with = Article.find(article_id)       
   end
 
 end
