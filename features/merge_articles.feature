@@ -21,7 +21,6 @@ Scenario: Merge two articles.
   When I go to the home page 
   Then I should see "Why bears are America's greatest threat."
   And I should not see "Bears: Corrupting America's youth."
-  When I follow "Why bears are America's greatest threat."
   Then I should see "Bears are unethical"
   And I should see "Bears are bad influences"
 
