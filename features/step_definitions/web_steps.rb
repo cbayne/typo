@@ -41,6 +41,7 @@ Given /^the blog is set up$/ do
                 :profile_id => 1,
                 :name => 'admin',
                 :state => 'active'})
+       
 end
 
 And /^I am logged into the admin panel$/ do
@@ -116,6 +117,14 @@ end
 
 When /^(?:|I )uncheck "([^"]*)"$/ do |field|
   uncheck(field)
+end
+
+When /^(?:|I )choose "([^"]*)"$/ do |field|
+  choose(field)
+end
+
+When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
+  attach_file(field, File.expand_path(path))
 end
 
 When /^(?:|I )choose "([^"]*)"$/ do |field|

@@ -61,29 +61,6 @@ class Article < Content
 
   setting :password,                   :string, ''
 
-
-  def merge_with(merge_article_id)
-    merge_article = Article.find_by_id(merge_article_id)
-
-    # title and author come for "free"
-    # merge bodies of the articles
-    if !self.body
-      self.body = merge_article.body
-    elsif merge_article.body
-      self.body += merge_article.body
-    end
-
-    # move comments from merge_article to edit_article
-    self.comments << merge_article.comments
-    self.save
-
-    # must "re-get" merge_article with new comments list or else comments will
-    # be deleted due to cascade
-    merge_article = Article.find_by_id(merge_article_id)
-    merge_article.destroy
-  end
-  
-  
   def initialize(*args)
     super
     # Yes, this is weird - PDC
@@ -117,16 +94,6 @@ class Article < Content
 
   include Article::States
 
-    def merge_with(other_article_id)
-      first_article = Article.find(self)
-      second_article = Article.find(other_article_id)
-      first_article.body = first_article.body + "\n" + second_article.body
-      first_article.comments = first_article.comments + second_article.comments
-      first_article.save!
-      second_article.published = false
-      Article.destroy(other_article_id)
-    end
-
   class << self
     def last_draft(article_id)
       article = Article.find(article_id)
@@ -135,15 +102,6 @@ class Article < Content
       end
       article
     end
-
-  def merge_with(other_article_id)
-    first_article = Article.find(self)
-    second_article = Article.find(other_article_id)
-    first_article.body = first_article.body + "\n" + second_article.body
-    first_article.comments = first_article.comments + second_article.comments
-    first_article.save!
-    Article.destroy(other_article_id)
-  end
 
     def search_with_pagination(search_hash, paginate_hash)
       
@@ -458,7 +416,33 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
- 
+
+
+  ###########################
+  ## MERGE ##################
+  ###########################
+  def merge_with(merge_article_id)
+    merge_article = Article.find_by_id(merge_article_id)
+
+    # title and author come for "free"
+    # merge bodies of the articles
+    if !self.body
+      self.body = merge_article.body
+    elsif merge_article.body
+      self.body += merge_article.body
+    end
+
+    # move comments from merge_article to edit_article
+    self.comments << merge_article.comments
+    self.save
+
+    # must "re-get" merge_article with new comments list or else comments will
+    # be deleted due to cascade
+    merge_article = Article.find_by_id(merge_article_id)
+    merge_article.destroy
+  end
+
+
 
   protected
 
@@ -510,5 +494,4 @@ class Article < Content
     to = to - 1 # pull off 1 second so we don't overlap onto the next day
     return from..to
   end
-
 end

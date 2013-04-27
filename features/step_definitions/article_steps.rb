@@ -28,14 +28,4 @@ And /^I am logged into the non-admin panel$/ do
   else
     assert page.has_content?('Login successful')
   end
-
-Given /^the articles with ids "(.*?)" and "(.*?)" were merged$/ do |arg1, arg2|
-  article = Article.find_by_id(arg1)
-  article.merge_with(arg2)
-end
-
-Given /the articles with ids "(\d+)" and "(\d+)" were merged$/ do |id1, id2|
-  article = Article.find_by_id(id1)
-  article.merge_with(id2)
-end
 end
