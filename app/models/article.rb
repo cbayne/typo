@@ -61,13 +61,6 @@ class Article < Content
 
   setting :password,                   :string, ''
 
-<<<<<<< HEAD
-   
-
-  
-  
-=======
-<<<<<<< .merge_file_LtuhaN
 
   def merge_with(merge_article_id)
     merge_article = Article.find_by_id(merge_article_id)
@@ -89,13 +82,8 @@ class Article < Content
     merge_article = Article.find_by_id(merge_article_id)
     merge_article.destroy
   end
- 
-=======
-   
   
   
->>>>>>> .merge_file_XPrWwH
->>>>>>> cbayne
   def initialize(*args)
     super
     # Yes, this is weird - PDC
@@ -523,12 +511,4 @@ class Article < Content
     return from..to
   end
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< .merge_file_LtuhaN
-=======
-
->>>>>>> .merge_file_XPrWwH
->>>>>>> cbayne
 end
