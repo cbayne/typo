@@ -61,6 +61,7 @@ class Article < Content
 
   setting :password,                   :string, ''
 
+<<<<<<< .merge_file_LtuhaN
 
   def merge_with(merge_article_id)
     merge_article = Article.find_by_id(merge_article_id)
@@ -83,6 +84,11 @@ class Article < Content
     merge_article.destroy
   end
  
+=======
+   
+  
+  
+>>>>>>> .merge_file_XPrWwH
   def initialize(*args)
     super
     # Yes, this is weird - PDC
@@ -124,6 +130,15 @@ class Article < Content
       end
       article
     end
+
+  def merge_with(other_article_id)
+    first_article = Article.find(self)
+    second_article = Article.find(other_article_id)
+    first_article.body = first_article.body + "\n" + second_article.body
+    first_article.comments = first_article.comments + second_article.comments
+    first_article.save!
+    Article.destroy(other_article_id)
+  end
 
     def search_with_pagination(search_hash, paginate_hash)
       
@@ -490,4 +505,8 @@ class Article < Content
     return from..to
   end
 
+<<<<<<< .merge_file_LtuhaN
+=======
+
+>>>>>>> .merge_file_XPrWwH
 end
