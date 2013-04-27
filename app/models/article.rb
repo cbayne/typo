@@ -61,10 +61,41 @@ class Article < Content
 
   setting :password,                   :string, ''
 
+<<<<<<< HEAD
    
 
   
   
+=======
+<<<<<<< .merge_file_LtuhaN
+
+  def merge_with(merge_article_id)
+    merge_article = Article.find_by_id(merge_article_id)
+
+    # title and author come for "free"
+    # merge bodies of the articles
+    if !self.body
+      self.body = merge_article.body
+    elsif merge_article.body
+      self.body += merge_article.body
+    end
+
+    # move comments from merge_article to edit_article
+    self.comments << merge_article.comments
+    self.save
+
+    # must "re-get" merge_article with new comments list or else comments will
+    # be deleted due to cascade
+    merge_article = Article.find_by_id(merge_article_id)
+    merge_article.destroy
+  end
+ 
+=======
+   
+  
+  
+>>>>>>> .merge_file_XPrWwH
+>>>>>>> cbayne
   def initialize(*args)
     super
     # Yes, this is weird - PDC
@@ -116,6 +147,15 @@ class Article < Content
       end
       article
     end
+
+  def merge_with(other_article_id)
+    first_article = Article.find(self)
+    second_article = Article.find(other_article_id)
+    first_article.body = first_article.body + "\n" + second_article.body
+    first_article.comments = first_article.comments + second_article.comments
+    first_article.save!
+    Article.destroy(other_article_id)
+  end
 
     def search_with_pagination(search_hash, paginate_hash)
       
@@ -483,5 +523,12 @@ class Article < Content
     return from..to
   end
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< .merge_file_LtuhaN
+=======
+
+>>>>>>> .merge_file_XPrWwH
+>>>>>>> cbayne
 end
