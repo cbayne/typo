@@ -63,15 +63,6 @@ class Article < Content
 
    
 
-  def merge_with(other_article_id)
-    first_article = Article.find(self)
-    second_article = Article.find(other_article_id)
-    first_article.body = first_article.body + "\n" + second_article.body
-    first_article.comments = first_article.comments + second_article.comments
-    first_article.save!
-    second_article.published = false
-    Article.destroy(other_article_id)
-  end
   
   
   def initialize(*args)
@@ -106,6 +97,16 @@ class Article < Content
                                :published_at=, :just_published?])
 
   include Article::States
+
+    def merge_with(other_article_id)
+      first_article = Article.find(self)
+      second_article = Article.find(other_article_id)
+      first_article.body = first_article.body + "\n" + second_article.body
+      first_article.comments = first_article.comments + second_article.comments
+      first_article.save!
+      second_article.published = false
+      Article.destroy(other_article_id)
+    end
 
   class << self
     def last_draft(article_id)
@@ -430,6 +431,7 @@ class Article < Content
   end
 
  
+
   protected
 
   def set_published_at

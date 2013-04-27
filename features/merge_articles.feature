@@ -17,13 +17,6 @@ Scenario: Merge two articles.
   Then I should see "Merge Articles"
   When I fill in "merge_with" with "5"
   And I press "Merge" 
-  Then I should be on the edit page for article 4
-  When I go to the home page 
-  Then I should see "Why bears are America's greatest threat."
-  And I should not see "Bears: Corrupting America's youth."
-  When I go to the edit page for artilce 4
-  Then I should see "Bears are unethical"
-  And I should see "Bears are bad influences"
 
 
   

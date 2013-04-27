@@ -21,9 +21,6 @@ module NavigationHelpers
     when /^the edit page for article (.*)/
       '/admin/content/edit/' + $1
 
-    when /^the edit page for article 4/
-      '/admin/content/edit/4'
-
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
