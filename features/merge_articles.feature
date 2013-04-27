@@ -9,8 +9,8 @@ Feature: Merge Articles
 
     Given the following articles exist:
     |                 title                    |   author        |	body		    | published | id |
-    | Why bears are America's greatest threat. | Aaron Miller    | Bears are unethical      | t         | 4  |
-    | Bears: Corrupting America's youth.       | Christina Bayne | Bears are bad influences | u         | 5  |
+    | Why bears are America's greatest threat. | Aaron Miller    | Bears are unethical      | true      | 4  |
+    | Bears: Corrupting America's youth.       | Christina Bayne | Bears are bad influences | true      | 5  |
 
 Scenario: Merge two articles.
   Given I am on the edit page for article 4
@@ -21,6 +21,7 @@ Scenario: Merge two articles.
   When I go to the home page 
   Then I should see "Why bears are America's greatest threat."
   And I should not see "Bears: Corrupting America's youth."
+  When I go to the edit page for artilce 4
   Then I should see "Bears are unethical"
   And I should see "Bears are bad influences"
 
