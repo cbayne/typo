@@ -30,6 +30,7 @@ class Admin::PagesController < Admin::BaseController
     @images = Resource.where("mime LIKE '%image%'").page(1).order('created_at DESC').per(10)
     @page = Page.find(params[:id])
     @page.attributes = params[:page]
+
     if request.post? and @page.save
       flash[:notice] = _('Page was successfully updated.')
       redirect_to :action => 'index'

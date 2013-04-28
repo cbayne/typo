@@ -416,33 +416,21 @@ class Article < Content
     user.admin? || user_id == user.id
   end
 
-
-
-  ###########################
-  ## MERGE ##################
-  ###########################
-  def merge_with(merge_article_id)
-    merge_article = Article.find_by_id(merge_article_id)
-
-    # title and author come for "free"
-    # merge bodies of the articles
-    if !self.body
-      self.body = merge_article.body
-    elsif merge_article.body
-      self.body += merge_article.body
+  def merge_with(other_article_id)
+    tomerge = Article.find_by_id(other_article_id)
+    if not self.id or not tomerge.id
+      return false
     end
 
-    # move comments from merge_article to edit_article
-    self.comments << merge_article.comments
-    self.save
+    self.body = self.body + "\n\n" + tomerge.body
+    self.comments << tomerge.comments
+    self.save!
 
-    # must "re-get" merge_article with new comments list or else comments will
-    # be deleted due to cascade
-    merge_article = Article.find_by_id(merge_article_id)
-    merge_article.destroy
+    tomerge = Article.find_by_id(other_article_id)
+    tomerge.destroy
+
+    return true
   end
-
-
 
   protected
 

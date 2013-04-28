@@ -1,31 +1,25 @@
-Given /^the blog is set up with a non-admin$/ do
-  Blog.default.update_attributes!({:blog_name => 'Teh Blag',
-                                   :base_url => 'http://localhost:3000'});
-  Blog.default.save!
-  User.create!({:login => 'publisher',
-                :password => 'publisher',
-                :email => 'publisher@snow.com',
-                :profile_id => 2,
-                :name => 'publisher',
-                :state => 'active'})
-end
-
-Given /^the following articles exist:$/ do |articles_table|
-  # table is a Cucumber::Ast::Table
-  articles_table.hashes.each do |article|
-  Article.create!(article)
-  
-  end 
-end
-
-And /^I am logged into the non-admin panel$/ do
-  visit '/accounts/login'
-  fill_in 'user_login', :with => 'publisher'
-  fill_in 'user_password', :with => 'publisher'
-  click_button 'Login'
-  if page.respond_to? :should
-    page.should have_content('Login successful')
-  else
-    assert page.has_content?('Login successful')
+Given /the following (.*?) exist:$/ do |type, table|
+  table.hashes.each do |element|
+    if    type == "users"    then User.create(element)
+    elsif type == "articles" then Article.create(element)
+    elsif type == "comments" then Comment.create(element)
+    end
   end
+end
+
+Given /I am logged in as "(.*?)" with pass "(.*?)"$/ do |user, pass|
+  visit '/accounts/login'
+  fill_in 'user_login', :with => user
+  fill_in 'user_password', :with => pass
+  click_button 'Login'
+  assert page.has_content? 'Login successful'
+end
+
+Given /the articles with ids "(\d+)" and "(\d+)" were merged$/ do |id1, id2|
+  article = Article.find_by_id(id1)
+  article.merge_with(id2)
+end
+
+Then /"(.*?)" should be author of (\d+) articles$/ do |user, count|
+  assert Article.find_all_by_author(User.find_by_name(user).login).size == Integer(count)
 end

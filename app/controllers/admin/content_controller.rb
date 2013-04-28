@@ -6,6 +6,21 @@ class Admin::ContentController < Admin::BaseController
 
   cache_sweeper :blog_sweeper
 
+  def merge_with
+    unless Profile.find(current_user.profile_id).label == "admin"
+      flash[:error] = _("You are not allowed to perform a merge action")
+      redirect_to :action => :index
+    end
+
+    article = Article.find_by_id(params[:id])
+    if article.merge_with(params[:merge_with])
+      flash[:notice] = _("Articles successfully merged!")
+      redirect_to :action => :index
+    else
+      flash[:notice] = _("Articles couldn't be merged")
+      redirect_to :action => :edit, :id => params[:id]
+    end
+  end
   
 
   def auto_complete_for_article_keywords
@@ -29,8 +44,9 @@ class Admin::ContentController < Admin::BaseController
     new_or_edit
   end
 
-  def edit
+   def edit
     @article = Article.find(params[:id])
+    @user_is_admin = Profile.find(current_user.profile_id).label == "admin"
     unless @article.access_by? current_user
       redirect_to :action => 'index'
       flash[:error] = _("Error, you are not allowed to perform this action")
@@ -115,25 +131,7 @@ class Admin::ContentController < Admin::BaseController
     render :text => nil
   end
   
-  def merge
-    edit_article = Article.find_by_id(params[:id])
-
-    if params[:id] == params[:merge_with]              # article cannot be merged to self
-      flash[:notice] = "An article cannot be merged with itself."
-      redirect_to :action => :index
-    elsif !edit_article                                # original article does not exist
-      flash[:notice] = "The original article does not exist."
-      redirect_to :action => :index
-    elsif !Article.find_by_id(params[:merge_with])     # desired article to merge does not exist
-      flash[:notice] = "The article you selected does not exist."
-      redirect_to :action => :edit, :id => params[:id]
-    else                                               # articles are different and both exist
-     edit_article.merge_with(params[:merge_with])
-     flash[:notice] = "Articles successfully merged."
-     redirect_to :action => :index
-    end
-  end
-   
+ 
   
   protected
 
