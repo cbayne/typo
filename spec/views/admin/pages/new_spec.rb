@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe "admin/pages/new.html.erb" do
   before do
     admin = stub_model(User, :settings => { :editor => 'simple' }, :admin? => true,
@@ -20,19 +21,19 @@ describe "admin/pages/new.html.erb" do
   end
 
   it "renders with no resources or macros" do
-    assign(:images, [])
-    assign(:macros, [])
-    assign(:resources, [])
-    render
+    should render_template(:images => false)
+    should render_template(:macros => false)
+    should render_template(:resources => false)
+    
   end
 
   it "renders with image resources" do
     # FIXME: Nasty. Thumbnail creation should not be controlled by the view.
     img = mock_model(Resource, :filename => "foo", :create_thumbnail => nil)
-    assign(:images, [img])
-    assign(:macros, [])
-    assign(:resources, [])
-    render
+    should render_template(:images => 'img')
+    should render_template(:macros => false)
+    should render_template(:resources => false)
+    
   end
 end
 

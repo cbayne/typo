@@ -29,24 +29,30 @@ describe Admin::PagesController do
 
   end
 
-  describe "new" do
-    
+  describe "new" do    
+
     context "without page params" do
       before(:each) do
         get :new
+        let(:object) {FactoryGirl.create("Page") }
+        
       end
 
       it "should render template new and has a page object" do
-        assert_response :success
-        assert_template "new"
-        assert_not_nil assigns(:page)
+      
+        response.should be_success
+        response.should render_template ("new")
+        assigns(:page).should eq(object)
+        
       end
 
       it "should assign to current user" do
+        
         assert_equal @henri, assigns(:page).user
       end
 
       it "should have a text filter" do
+        
         assert_equal TextFilter.find_by_name(@blog.text_filter), assigns(:page).text_filter
       end
     end
