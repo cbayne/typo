@@ -32,25 +32,24 @@ describe Admin::PagesController do
   describe "new" do    
 
     context "without page params" do
-      before(:each) do
-        get :new, :page => ''       
-      
+
+     before(:each) do
+        get :new
+      end
 
       it "should render template new and has a page object" do
-      
-        response.should be_success
-        response.should render_template ("new")
-        assigns(:page).should eq(@object)
-        end
+        assert_response :success
+        assert_template "new"
+        assert_not_nil assigns(:page)
       end
 
       it "should assign to current user" do
-        
         assert_equal @henri, assigns(:page).user
       end
 
       it "should have a text filter" do
-        
+       
+       get :text_filter
         assert_equal TextFilter.find_by_name(@blog.text_filter), assigns(:page).text_filter
       end
     end
@@ -73,15 +72,15 @@ describe Admin::PagesController do
 
   describe "test_edit" do
     before(:each) do
-      @page = Factory(:page)
-      get :edit, :id => @page.id
+      page = Factory(:page)
+      get :edit, :id => page.id
     end
 
     it 'should render edit template' do
       assert_response :success
-      assert_template "edit"
+       response.should render_template ("edit")
       assert_not_nil assigns(:page)
-      assert_equal @page, assigns(:page)
+      assert_equal page.id, assigns(:page)
     end
 
   end
