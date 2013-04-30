@@ -34,7 +34,11 @@ describe Admin::PagesController do
     context "without page params" do
       before(:each) do
         get :new
-        let(:object) {FactoryGirl.create("Page") }
+	images.should be_empty
+        should_render_template(:images => false)
+        should_render_template(:macros => false)
+        should_render_template(:resources => false)
+        @object ||= FactoryGirl.create(:page)
         
       end
 
@@ -42,7 +46,7 @@ describe Admin::PagesController do
       
         response.should be_success
         response.should render_template ("new")
-        assigns(:page).should eq(object)
+        assigns(:page).should eq(@object)
         
       end
 
