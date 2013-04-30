@@ -33,16 +33,16 @@ describe Admin::PagesController do
 
     context "without page params" do
       before(:each) do
-        get :new
-        let(:object) {FactoryGirl.create("Page") }
-        
+       
+      get :new
       end
 
       it "should render template new and has a page object" do
       
         response.should be_success
         response.should render_template ("new")
-        assigns(:page).should eq(object)
+        assert_not_nil assigns(:page)
+        assert_equal @page, assigns(:page)
         
       end
 
